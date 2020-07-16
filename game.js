@@ -8,6 +8,14 @@ class Game {
     this.running = true;
   }
 
+  drawStartScreen() {
+    this.context.fillStyle = 'red';
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillText('Stop Trump of Building the Wall', 150, 150, 50);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //start screen elements to be drawn
+  }
+
   drawEverything() {
     this.grid.drawGrid();
     for (const brick of this.bricks) {
@@ -44,14 +52,19 @@ class Game {
           //this.removeBrick('red')
           this.remove('blue');
           break;
+        case 'Enter':
+          event.preventDefault();
+          this.loop();
       }
     });
   }
 
-  //only to remove bricks
   remove(color) {
     for (const brick of this.bricks) {
-      if (new Date() < new Date(brick.bornDate.getTime() + brick.brickTime)) {
+      if (
+        new Date() < new Date(brick.bornDate.getTime() + brick.brickTime) &&
+        brick.color === color
+      ) {
         this.grid.layout[brick.column][brick.row] = false;
         this.bricks.splice(this.bricks.indexOf(brick), 1);
       }
@@ -73,7 +86,6 @@ class Game {
     }
 
     this.running = false;
-    console.log(this.running);
     if (this.loopId) {
       clearTimeout(this.loopId);
     }
@@ -82,12 +94,13 @@ class Game {
   loop() {
     this.addBrick();
     this.clean();
+    this.drawStartScreen();
     this.drawEverything();
     this.lose();
     if (this.running) {
       setTimeout(() => {
         this.loop();
-      }, 100);
+      }, 200);
     }
   }
 }
