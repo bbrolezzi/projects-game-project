@@ -47,7 +47,17 @@ class Game {
   }
 
   lose() {
+    for (let i = 0; i < this.grid.layout.length; i++) {
+      for (let j = 0; j < this.grid.layout[i].length; j++) {
+        if (this.grid.layout[i][j] == false) {
+          this.running = true;
+          return;
+        }
+      }
+    }
+
     this.running = false;
+    console.log(this.running);
     if (this.loopId) {
       clearTimeout(this.loopId);
     }
@@ -56,6 +66,7 @@ class Game {
   loop() {
     this.addBrick();
     this.drawEverything();
+    this.lose();
     if (this.running) {
       setTimeout(() => {
         this.loop();

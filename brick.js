@@ -33,6 +33,7 @@ class Brick {
     this.column = Math.floor(Math.random() * 12);
     if (this.checkPosition(this.column, this.row)) {
       this.setRandomPosition();
+      console.log('setRandomPosition working');
     } else {
       this.grid.layout[this.column][this.row] = true;
     }
@@ -41,6 +42,7 @@ class Brick {
   checkPosition(column, row) {
     for (let i = 0; i < this.size; i++) {
       if (!this.grid.layout[column + i] || this.grid.layout[column + i][row]) {
+        console.log('checkPosition working');
         return true;
       }
     }
