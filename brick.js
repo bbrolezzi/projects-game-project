@@ -1,20 +1,21 @@
 class Brick {
-  constructor(game, size) {
+  constructor(game, color) {
     this.game = game;
     this.grid = this.game.grid;
-    this.size = size;
+    //this.size = size;
     this.tileSize = this.grid.tileSize;
     this.appearingBrick = true; //usar pra fazer o tijolo aprecer de acordo com o tempo
     this.brickTime = 1000; //tempo pro tijolo aparecer
     this.column = 0;
     this.row = 0;
-    this.color = '';
-    this.setColor();
+    this.color = color;
+    console.log(this.color);
+    //this.setColor();
     this.setRandomPosition();
     this.bornDate = new Date();
   }
 
-  setColor() {
+  /*setColor() {
     switch (this.size) {
       case 1:
         this.color = 'red';
@@ -26,11 +27,11 @@ class Brick {
         this.color = 'blue';
         break;
     }
-  }
+  }*/
 
   setRandomPosition() {
     this.row = Math.floor(Math.random() * 20);
-    this.column = Math.floor(Math.random() * 12);
+    this.column = Math.floor(Math.random() * 13);
     if (this.checkPosition(this.column, this.row)) {
       this.setRandomPosition();
       console.log('setRandomPosition working');

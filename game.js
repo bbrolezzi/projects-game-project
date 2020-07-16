@@ -16,9 +16,9 @@ class Game {
   }
 
   addBrick() {
-    //const size = Math.floor(Math.random() * 3) + 1;
-    const size = 1;
-    this.bricks.push(new Brick(this, size));
+    const index = Math.floor(Math.random() * 3);
+    const colors = ['red', 'white', 'blue'];
+    this.bricks.push(new Brick(this, colors[index]));
     //size = 1,2,3
   }
 
@@ -26,23 +26,39 @@ class Game {
     window.addEventListener('keydown', event => {
       const key = event.key;
       switch (key) {
-        case 'ArrowUp':
+        case 'ArrowLeft':
           event.preventDefault();
           //this.addBrick();
-          this.clean();
-          this.drawEverything();
+          //this.removeBrick('red')
+          this.remove('red');
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          //this.addBrick();
+          //this.removeBrick('red')
+          this.remove('white');
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          //this.addBrick();
+          //this.removeBrick('red')
+          this.remove('blue');
           break;
       }
     });
   }
 
-  clean() {
+  //only to remove bricks
+  remove(color) {
     for (const brick of this.bricks) {
       if (new Date() < new Date(brick.bornDate.getTime() + brick.brickTime)) {
         this.grid.layout[brick.column][brick.row] = false;
         this.bricks.splice(this.bricks.indexOf(brick), 1);
       }
     }
+  }
+
+  clean() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
@@ -65,12 +81,13 @@ class Game {
 
   loop() {
     this.addBrick();
+    this.clean();
     this.drawEverything();
     this.lose();
     if (this.running) {
       setTimeout(() => {
         this.loop();
-      }, 300);
+      }, 100);
     }
   }
 }
