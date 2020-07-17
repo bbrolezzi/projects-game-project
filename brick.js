@@ -5,7 +5,7 @@ class Brick {
     this.size = 1;
     this.tileSize = this.grid.tileSize;
     this.appearingBrick = true;
-    this.brickTime = 1000;
+    this.brickTime = 2000;
     this.column = 0;
     this.row = 0;
     this.color = color;

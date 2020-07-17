@@ -1,3 +1,7 @@
+const hitingNoise = new Audio('./sound/droppingWall.wav');
+const gamePlay = new Audio('./sound/chronoCross.mp3');
+const gameLost = new Audio('./sound/sadTune.mp3');
+
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
@@ -72,18 +76,22 @@ class Game {
         case 'ArrowLeft':
           event.preventDefault();
           this.remove('red');
+          hitingNoise.play();
           break;
         case 'ArrowDown':
           event.preventDefault();
           this.remove('white');
+          hitingNoise.play();
           break;
         case 'ArrowRight':
           event.preventDefault();
           this.remove('blue');
+          hitingNoise.play();
           break;
         case 'Enter':
           event.preventDefault();
           this.loop();
+          gamePlay.play();
       }
     });
   }
@@ -117,6 +125,8 @@ class Game {
     if (this.lose) {
       clearTimeout(this.lose);
       this.drawEndScreen();
+      gamePlay.pause();
+      gameLost.play();
     }
   }
 
@@ -128,7 +138,7 @@ class Game {
     if (this.running) {
       setTimeout(() => {
         this.loop();
-      }, 50);
+      }, 500);
     }
   }
 }
