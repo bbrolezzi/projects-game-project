@@ -4,16 +4,51 @@ class Game {
     this.context = canvas.getContext('2d');
     this.grid = new Grid(this);
     this.bricks = [];
+    this.image = new Image();
     this.setKeyBindings();
     this.running = true;
   }
 
   drawStartScreen() {
-    this.context.fillStyle = 'red';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.context.fillText('Stop Trump of Building the Wall', 150, 150, 50);
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    //start screen elements to be drawn
+    const startImage = new Image();
+    startImage.src = './images/startImage.png';
+    startImage.addEventListener('load', () => {
+      this.context.drawImage(
+        startImage,
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+    });
+    this.context.drawImage(
+      startImage,
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+  }
+
+  drawEndScreen() {
+    const endImage = new Image();
+    endImage.src = './images/endImage.png';
+    endImage.addEventListener('load', () => {
+      this.context.drawImage(
+        endImage,
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+    });
+    this.context.drawImage(
+      endImage,
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
   }
 
   drawEverything() {
@@ -36,20 +71,14 @@ class Game {
       switch (key) {
         case 'ArrowLeft':
           event.preventDefault();
-          //this.addBrick();
-          //this.removeBrick('red')
           this.remove('red');
           break;
         case 'ArrowDown':
           event.preventDefault();
-          //this.addBrick();
-          //this.removeBrick('red')
           this.remove('white');
           break;
         case 'ArrowRight':
           event.preventDefault();
-          //this.addBrick();
-          //this.removeBrick('red')
           this.remove('blue');
           break;
         case 'Enter':
@@ -84,23 +113,22 @@ class Game {
         }
       }
     }
-
     this.running = false;
-    if (this.loopId) {
-      clearTimeout(this.loopId);
+    if (this.lose) {
+      clearTimeout(this.lose);
+      this.drawEndScreen();
     }
   }
 
   loop() {
     this.addBrick();
     this.clean();
-    this.drawStartScreen();
     this.drawEverything();
     this.lose();
     if (this.running) {
       setTimeout(() => {
         this.loop();
-      }, 200);
+      }, 50);
     }
   }
 }

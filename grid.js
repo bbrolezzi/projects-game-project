@@ -12,12 +12,11 @@ class Grid {
   createLayout() {
     return [
       [
-        //row 1
-        false, //row 1, column 1
-        false, //row 1, column 2
-        false, //row 1, column 3 --> position 0,2
-        false, //row 1, column 4 --> position 0,3
-        false, //row 1, column 5
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false,
@@ -303,11 +302,8 @@ class Grid {
 
   drawGrid() {
     const ctx = this.game.context;
-    //draw only one square
     for (let i = 0; i < this.layout.length; i++) {
-      //this will go over every row
       for (let j = 0; j < this.layout[i].length; j++) {
-        //this will go over every column
         if (this.layout[i][j]) {
           ctx.fillRect(
             j * this.tileSize,
